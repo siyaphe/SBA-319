@@ -11,8 +11,9 @@ const Dessert = require("./models/dessert")
 const Food = require("./models/food")
 const Drink = require("./models/drink")
 
-// const notesController = require('./controllers/notesController.js')
-
+const dessertsController = require('./controllers/dessertsController.js')
+const drinksController = require('./controllers/drinksController.js')
+const foodsController = require('./controllers/foodsController.js')
 const cors = require('cors')
 
 //------------------------receiving cross origins
@@ -32,169 +33,61 @@ app.get('/', (req, res) => {
 });
 
 // We want to establish CRUD routes for our  Dessert Models
-app.get('/desserts', async (req, res) => {
-  const desserts = await Dessert.find();
-  res.json({ desserts: desserts });
-});
+app.get('/desserts', dessertsController.fetchAllDesserts);
 //---------------------------------------------GET All Dessert
 
-app.get('/desserts:id', async (req, res) => {
-  const dessertId = req.params.id;
-  const dessert = await Dessert.findById(dessertId);
-  res.json({ dessert: dessert });
-});
+app.get('/desserts:id', dessertsController.fetchDessert);
 //---------------------------GET a specific dessert
 
 //---------------------------------------------READ
 
-app.post('/desserts', async (req, res) => {
-//   console.log(BODY: ${req.body})
-  const title = req.body.title;
-  const body = req.body.body;
-
-  const dessert = await Dessert.create({
-    title: title,
-    body: body
-  });
-  res.json({ dessert: dessert });
-});
+app.post('/desserts', dessertsController.createDessert);
 //---------------------------create a dessert
 
-app.put('/desserts/:id', async (req, res) => {
-// 1. Get the id of the url
-const dessertId = req.params.id
-// 2. Get the data of the id
-  const {title,body} = req.body
-// 3. find and update the Note
-const updatedNote = await Dessert.findByIdAndUpdate(dessertId,{
-  title: title,
-  body: body
-})
-// 4. Retrieve updatedNote and send it as a response
-res.json({dessert: updatedDessert})
-});
+app.put('/desserts/:id', dessertsController.updatedDessert);
 // //---------------------------------------------Update
-app.delete('/desserts/:id', async (req, res) => {
-  const dessertId = req.params.id
-  await Dessert.deleteOne({
-    id: dessertIdId
-  })
-  res.json({success: "Record has been daeleted successfully"})
-});
+
+
+app.delete('/desserts/:id', dessertsController.deleteDessert);
 //---------------------------------------------Delete
 //---------------------------------------------------------------CRUD
 
 
 // // We want to establish CRUD routes for our Drink Models
-app.get('/drinks', async (req, res) => {
-  const drinks = await Drink.find();
-  res.json({ drinks: drinks });
-});
+app.get('/drinks', drinksController.fetchAllDrinks);
 //--------------------------------GET All drinks
-app.get('/drinks/:id', async (req, res) => {
-  const drinkId = req.params.id;
-  const drink = await Drink.findById(drinkId);
-  res.json({ drink: drink });
-});
+app.get('/drinks/:id', drinksController.fetchDrink);
 //---------------------------GET a specific drink
 
 //---------------------------------------------read
 
-app.post('/drinks', async (req, res) => {
-//   console.log(BODY: ${req.body})
-  const title = req.body.title;
-  const body = req.body.body;
-
-  const drink = await Drink.create({
-    title: title,
-    body: body
-  });
-  res.json({ drink: drink });
-});
+app.post('/drinks', drinksController.createDrink);
 //---------------------------create all
-app.put("/drinks/:id", async(req, res) => {
-  // 1. Get the id of the url
-const drinkId = req.params.id
-// 2. Get the data of the id
-  const {title,body} = req.body
-// 3. find and update the drink
-const updatedDrink = await Drink.findByIdAndUpdate(drinkId,{
-  title: title,
-  body: body
-})
-// 4. Retrieve updatedNote and send it as a response
-res.json({drink: updatedDrink})
-});
+app.put("/drinks/:id", drinksController.updatedDrink);
 // //---------------------------------------------Update
-app.delete("/drinks/:id", async(req, res)=>{
-  const drinkId = req.params.id
-  await Drink.deleteOne({
-    id: drinkId
-  })
-  res.json({success: "Record has been daeleted successfully"})
-} );
+app.delete("/drinks/:id", drinksController.deleteDrink);
 //---------------------------------------------Delete
 //---------------------------------------------------------------CRUD
 
 
 // We want to establish CRUD routes for our  Food Models
-app.get('/foods', async (req, res) => {
-  const foods = await Food.find();
-  res.json({ foods: foods });
-});
+app.get('/foods', foodsController.fetchAllFoods);
 //-------------------------------------------GET All foods
-app.get('/foods/:id', async (req, res) => {
-  const foodId = req.params.id;
-  const food = await Food.findById(foodId);
-  res.json({ food: food });
-});
+app.get('/foods/:id', foodsController.fetchFood );
 //---------------------------GET a specific food
 
 //---------------------------------------------Read
 
-app.post('/foods', async (req, res) => {
-//   console.log(BODY: ${req.body})
-  const title = req.body.title;
-  const body = req.body.body;
-
-  const food = await Food.create({
-    title: title,
-    body: body
-  });
-  res.json({ food: food});
-});
+app.post('/foods', );
 //---------------------------create a food
 
-app.put('/foods/:id', async (req, res) => {
-  // 1. Get the id of the url
-const foodId = req.params.id
-// 2. Get the data of the id
-  const {title,body} = req.body
-// 3. find and update the Note
-const updatedFood = await Food.findByIdAndUpdate(foodId,{
-  title: title,
-  body: body
-})
-// 4. Retrieve updatedNote and send it as a response
-res.json({food: updatedFood})
-});
+app.put('/foods/:id', foodsController.createFood);
 //---------------------------------------------Update
-app.delete('/foods/:id', async (req, res) => {
-  const foodId = req.params.id
-  await Food.deleteOne({
-    id: foodId
-  })
-  res.json({success: "Record has been daeleted successfully"})
-});
+app.delete('/foods/:id', foodsController.deleteFood );
 //---------------------------------------------Delete
 //------------------------------------------------------------CRUD
 
 
-
-
-//---------------------------------------------Delete
-
 app.listen(PORT, () => {
-    console.log(`Express server listening on port num: ${PORT}`);
-  });
-  
+  console.log(`Express server listening on port num: ${PORT}`);
+});
